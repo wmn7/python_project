@@ -46,11 +46,15 @@ except:
 
 # 读取配置文件信息--保存成字典类型config_dict
 config_dict = {}
-with open('./'+str(configfile),'r') as configfile:
-    for x in configfile:
-        cash = x.split('=')
-        config_dict[cash[0].strip()]=float(cash[1].strip())
-tax = config_dict['YangLao'] + config_dict['YiLiao'] + config_dict['ShiYe'] + config_dict['GongShang'] + config_dict['ShengYu'] + config_dict['GongJiJin']
+try:
+    with open('./'+str(configfile),'r') as configfile:
+        for x in configfile:
+            cash = x.split('=')
+            config_dict[cash[0].strip()]=float(cash[1].strip())
+    tax = config_dict['YangLao'] + config_dict['YiLiao'] + config_dict['ShiYe'] + config_dict['GongShang'] + config_dict['ShengYu'] + config_dict['GongJiJin']
+except:
+    print('filename error')
+    sys.exit(-1)
 
 #print(config_dict)
 
@@ -58,19 +62,23 @@ tax = config_dict['YangLao'] + config_dict['YiLiao'] + config_dict['ShiYe'] + co
 # 读取员工信息--保存成字典类型employ_dict
 # 读取csv文件
 employ_dict = []
-with open('./'+str(employ_data_file),'r') as user_file:
-    reader = csv.reader(user_file)
-    # taxshe为要交的社保
-    for i in reader:
-        if int(i[1])<config_dict['JiShuL']:
-            taxshe = config_dict['JiShuL']*tax
-        elif int(i[1])>config_dict['JiShuH']:
-            taxshe = config_dict['JiShuH']*tax
-        else:
-            taxshe = int(i[1])*tax
-        employ_wage = int(i[1]) - taxshe - employ_tax_calculate(int(i[1])-taxshe)
-        employ_dict.append([int(i[0]),int(i[1]),taxshe,employ_tax_calculate(int(i[1])-taxshe),employ_wage])
-        employ_dict.sort()
+try:
+    with open('./'+str(employ_data_file),'r') as user_file:
+        reader = csv.reader(user_file)
+        # taxshe为要交的社保
+        for i in reader:
+            if int(i[1])<config_dict['JiShuL']:
+                taxshe = config_dict['JiShuL']*tax
+            elif int(i[1])>config_dict['JiShuH']:
+                taxshe = config_dict['JiShuH']*tax
+            else:
+                taxshe = int(i[1])*tax
+            employ_wage = int(i[1]) - taxshe - employ_tax_calculate(int(i[1])-taxshe)
+            employ_dict.append([int(i[0]),int(i[1]),taxshe,employ_tax_calculate(int(i[1])-taxshe),employ_wage])
+            employ_dict.sort()
+except:
+    print('filename error')
+    sys.exit(-1)
 
 result = ['{},{:.2f},{:.2f},{:.2f},{:.2f}'.format(i[0],i[1],i[2],i[3],i[4]) for i in employ_dict]
 
@@ -83,9 +91,11 @@ for i in range(len(result)):
 
 
 # 写入csv文件
-
-with open('./'+str(employ_o_data_file),'w') as user_file:
-    writer = csv.writer(user_file)
-    for i in range(len(result)):
-        writer.writerow(result[i])
-
+try:
+    with open('./'+str(employ_o_data_file),'w') as user_file:
+        writer = csv.writer(user_file)
+        for i in range(len(result)):
+            writer.writerow(result[i])
+except:
+    print('filename error')
+    sys.exit(-1)
