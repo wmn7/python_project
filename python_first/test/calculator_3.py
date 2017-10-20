@@ -72,9 +72,14 @@ with open('./'+str(employ_data_file),'r') as user_file:
         employ_dict.append([int(i[0]),int(i[1]),taxshe,employ_tax_calculate(int(i[1])-taxshe),employ_wage])
         employ_dict.sort()
 
-result = [['{:.2f}'.format(i) for i in j] for j in employ_dict]
+result = ['{},{:.2f},{:.2f},{:.2f},{:.2f}'.format(i[0],i[1],i[2],i[3],i[4]) for i in employ_dict]
 
-print(result)
+for i in range(len(result)):
+    result[i] = result[i].split(',')
+
+#result = [['{:.2f}'.format(i) for i in j] for j in employ_dict]
+
+#print(result)
 
 
 # 写入csv文件
