@@ -47,7 +47,7 @@ except:
 # 读取配置文件信息--保存成字典类型config_dict
 config_dict = {}
 try:
-    with open('./'+str(configfile),'r') as configfile:
+    with open(configfile,'r') as configfile:
         for x in configfile:
             cash = x.split('=')
             config_dict[cash[0].strip()]=float(cash[1].strip())
@@ -63,7 +63,7 @@ except:
 # 读取csv文件
 employ_dict = []
 try:
-    with open('./'+str(employ_data_file),'r') as user_file:
+    with open(employ_data_file,'r') as user_file:
         reader = csv.reader(user_file)
         # taxshe为要交的社保
         for i in reader:
@@ -80,7 +80,7 @@ except:
     print('filename error')
     sys.exit(-1)
 
-result = ['{},{:.2f},{:.2f},{:.2f},{:.2f}'.format(i[0],i[1],i[2],i[3],i[4]) for i in employ_dict]
+result = ['{},{},{:.2f},{:.2f},{:.2f}'.format(i[0],i[1],i[2],i[3],i[4]) for i in employ_dict]
 
 for i in range(len(result)):
     result[i] = result[i].split(',')
@@ -92,7 +92,7 @@ for i in range(len(result)):
 
 # 写入csv文件
 try:
-    with open('./'+str(employ_o_data_file),'w') as user_file:
+    with open(employ_o_data_file,'w') as user_file:
         writer = csv.writer(user_file)
         for i in range(len(result)):
             writer.writerow(result[i])
