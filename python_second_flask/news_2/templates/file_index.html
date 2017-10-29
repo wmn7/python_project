@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% for name in file_name %}
+        <br>{{ name }} : {{file_name[name]}}</br>
+    {% endfor %}
+{% endblock %}
+
+
