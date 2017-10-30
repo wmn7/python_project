@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{# 引入模板 #}
+
+{% block content %}
+
+{#可以写循环语句#}
+
+{% for name in title_name %}
+    {# 这里调用的是app里的file函数 #}
+    <li><a href="{{ url_for('file',file_id=name.id) }}"  target="_blank"> {{name.title}} </a>
+    {% for tag in name.tags %}
+    <span>{{ tag }}</span></li>
+    {% endfor %}
+{% endfor %}
+
+{% endblock %}
+
+
