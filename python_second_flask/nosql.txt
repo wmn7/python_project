@@ -1,0 +1,60 @@
+# nosql数据库
+
+所谓非关系数据库，是指不使用 SQL 语言进行数据操作的数据库的统称。这类数据库存储数据时没有固定的模式，不支持数据表 join 的操作，可以很方便的进行横向扩展。非关系数据库种类很多，其中 MongoDB 和 Redis 应用广泛。在本节实验中，我们将学习 MongoDB 和 Redis 的基本操作，以及怎么样使用 Python 代码访问这些数据库。
+
+# MongoDB
+
+MongoDB 是非常流行的 NoSQL 数据库，支持自动化的水平扩展，同时也被称为文档数据库，因为数据按文档的形式进行存储（BSON 对象，类似于 JSON）。在 MongoDB 中数据存储的组织方式组要分为四级：
+
+    数据库实例，比如一个 app 使用一个数据库；
+    collection 文档集合 ，一个数据库包含多个文档集合，类似于 MySQL 中的表；
+    document 文档，一个文档代表一项数据，类似于 JSON 对象，对应于MySQL 表中的一条记录；
+    字段：一个文档包含多个字段；
+
+MongoDB 存储的数据可以是无模式的，比如在一个集合中的所有文档不需要有一致的结构。也就是说往同一个表中插入不同的数据时，这些数据之间不必有同样的字段。这和 MySQL 彻底不同，在 MySQL 中创建表时就已经确定了数据项的字段，往其中插入数据时，必须是相同的结构。
+
+安装mongodb
+sudo apt-get install mongodb
+
+安装python的mongodb驱动
+sudo python3 -m pip install pymongo
+
+启动mongodb数据库
+sudo service mongod start
+sudo service mongod stop
+mongo
+
+显示当前存在的数据库
+show databases;
+显示方面数据库的所有文件
+show collections;
+切换数据库
+use database_name;
+删除数据表
+db.COLLECTION_NAME.drop()
+
+# 最新版下载
+https://www.mongodb.com/download-center#community
+
+# 安装mongodb
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-linux/
+
+## ubuntu下如何永久取得对某个文件夹的读写权限
+sudo chmod -R 777 ［文件夹路径］
+
+## mkdir -p中的 p有什么用
+参数P代表parents，表示递归创建目录。
+列如：
+如果要创建目录A并创建目录A的子目录B，没有用-p的情况下是mkdir 2次
+如果用-p 可以直接创建2个目录 mkdir -p 目录A/子目录B就可以。
+
+## linux设置环境变量
+export PATH=/usr/local/mongodb/bin:$PATH
+
+# mongodb简单入门
+https://docs.mongodb.com/manual/tutorial/getting-started/#getting-started
+
+
+
+
+

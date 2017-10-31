@@ -1,0 +1,130 @@
+ubuntu上安装mysql用以下命令可以完成。
+sudo apt-get install mysql-server
+apt-get isntall mysql-client
+sudo apt-get install libmysqlclient-dev
+
+sudo service mysql start
+sudo service mysql stop
+
+
+## 去修改my.cnf，修改编码
+[client]
+default-character-set=utf8
+
+[mysql]
+default-character-set=utf8
+
+[mysqld]
+init_connect='SET collation_connection = utf8_unicode_ci'
+init_connect='SET NAMES utf8'
+character-set-server=utf8
+collation-server=utf8_unicode_ci
+skip-character-set-client-handshake
+
+## 使用下述命令连接到数据库
+mysql -u root(用户名) -p
+退出：exit
+注意命令后面要加　’;‘
+
+## 创建数据库
+create database <db_name>;
+
+## 查看数据库
+show databases;
+
+## 删除数据库
+drop database <db_name>;
+
+----------------
+数据库创建成功后就可以创建表了。
+
+## 连接到指定的数据库
+use <db_name>;
+
+## 创建表
+
+CREATE TABLE 表的名字
+(
+列名a 数据类型(数据长度),
+列名b 数据类型(数据长度)，
+列名c 数据类型(数据长度)
+);
+
+例如：
+create table user
+(
+id int(10),
+name varchar(20),
+email varchar(64)
+);
+
+## 查看表
+show tables;
+
+
+## 删除表
+drop table <table_name>
+
+## 查看表的字段信息
+describe <table_name>
+
+## 查看表内信息
+select * from <table_name>
+
+## 在表中插入数据
+INSERT INTO <table_name>(列名a,列名b,列名c) VALUES(值1,值2,值3);
+
+insert into user(id, name, email) values(1, 'aiden', 'luojin@simplecloud.cn');
+如果插入顺序和表的顺序一样，就可以不写列名
+insert into user values(2, 'lxttx', 'lxttx@gmail.com');
+
+## 删除表内的数据
+delete form user where id=3;
+
+# 约束
+
+## 设置唯一约束
+
+设置表user中email字段不能重复
+alter table user modify email varchar(64) unique;
+或
+alter table user add constraint unique (email);
+
+## 跨表约束
+在表中插入数据项时，要求该数据项的某一个字段值必须已经在其他表中存在，比如外键约束。插入数据时，如果不满足外键约束则不允许插入，删除数据如果破坏了外键约束也会禁止删除数据。外键约束创建时，必须要求另一张表中存在主键，主键在表中能唯一的确定某一行的值。
+
+设置主键---Key 列的值为 PRI, 代表 primary
+alter table user add constraint pk_id primary key (id);
+
+```
+mysql> create table course                                                                                               -> (
+    -> id int(10) auto_increment,
+    -> name varchar(64),
+    -> teacher_id int(10),
+    -> primary key (id),
+    -> constraint fk_user foreign key (teacher_id) references user(id)
+    -> );
+```
+首先通过 auto_increment 指定了字段 id 为自增模式，这样每次插入数据时不用指定该字段，插入数据后这个字段会自动增加。
+接着通过 primary key (id) 语句指定了这个表的主键为 id
+最后使用设置了字段 teacher_id 为外键，且关联到了 user 表的 id 字段。
+
+如果在teacher_id里插入在user中不存在的就会报错
+
+## 联合查询
+select * from course join user on course.teacher_id = user.id;
+
+例子中使用 join 指令进行联合查询，on 关键字指定了两张表的关联方式。
+
+# SQLAlchemy
+
+在实际项目中，一般都不直接写 SQL 语句访问数据库，而是通过 ORM 工具。ORM 全称是对象关系映射（Object Relational Mapping），有了 ORM 以后可以将 Python 对象映射到数据库中，这样就不用再编写各种 SQL 语句了。而在 Python 语言中，SQLAlchemy 是非常强大的 ORM 包，非常值得学习。同时 SQLAlachemy 支持多种关系数据，如果项目后期需要切换到其他类型的数据库，通过 SQLAlchemy 也比较容易。
+
+
+
+
+
+
+
+
+

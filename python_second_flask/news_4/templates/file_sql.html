@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{# 引入模板 #}
+
+{% block content %}
+
+{#可以写循环语句#}
+
+<p>file ID: {{ file_item.id }}</p>
+
+<p>file Title: {{ file_item.title }}</p>
+
+<p>file Content: {{ file_item.content }}</p>
+
+<p>file Category: {{ file_item.category.name }}</p>
+
+<p>file Create_Time: {{ file_item.created_time }}</p>
+
+{% endblock %}
+
+
